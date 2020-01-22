@@ -25,9 +25,9 @@ export default class App extends React.Component {
           const location = JSON.stringify(position);
           this.setState({location:position.coords});
           this.getweathernow()
-          this.getweatherforecast()
+          this.getweatherforecast()}
 
-        },
+        ,
         error => Alert.alert(error.message)
       ,options = {
         enableHighAccuracy: true,
@@ -67,7 +67,13 @@ export default class App extends React.Component {
     try{
       
    const data= await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${this.state.location.latitude}&lon=${this.state.location.longitude}&units=metric&APPID=356f4c5c820f76f0f739f20caef2afbf`)
-    const datajson=  await data.json();
+   const datajson=  await data.json();
+   
+   if(datajson.cod==429){
+     Alert.alert("The OpenWeatherMap API key is temporary blocked ")
+   }
+   else{
+   
 
 
     const {name}=datajson
@@ -79,6 +85,7 @@ export default class App extends React.Component {
     this.setState({current_temp:temp})
     this.setState({current_icon:icon})
     this.setState({desc:description})
+   }
   }
   catch(err){console.error(err)}
 
