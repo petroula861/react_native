@@ -23,6 +23,6 @@ React Native, javascript, OpenWeather API, Google Places Autocomplete API
 
 - Scan the QR code from the Expo app
 
-
-# Note: When cloning the repo you may get an error about package 'react-native-viewport-units'
-        To solve this follow those [steps](https://github.com/jmstout/react-native-viewport-units/issues/4#issuecomment-396980329)
+# Note: 
+When cloning the repo you may get an error about package 'react-native-viewport-units'
+To solve this follow those [steps](https://github.com/jmstout/react-native-viewport-units/issues/4#issuecomment-396980329)
