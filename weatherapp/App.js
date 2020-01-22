@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet,TextInput,Text,View,Alert,Image, Button} from 'react-native';
+import {TouchableOpacity ,StyleSheet,TextInput,Text,View,Alert,Image, Button} from 'react-native';
 import {Overlay,} from 'react-native-elements';
  import {vw, vh, Dimensions} from 'react-native-viewport-units'
 
@@ -7,43 +7,60 @@ import {Overlay,} from 'react-native-elements';
 
 export default class App extends React.Component {
 
-  state={name_new:"",selectedcity:false,cityname:"default",location:{},apikey:'AIzaSyBlenci9g0C_166b8sMDxbQ78XFGsr0iSk',forecast:{"0":{},"1":{},"2":{},"3":{}},isVisible:false,predictions:[]}
+  state={name_new:"",selectedcity:false,cityname:"default",location:{},apikey:'AIzaSyBlenci9g0C_166b8sMDxbQ78XFGsr0iSk',forecast:{"0":{},"1":{},"2":{},"3":{}},isVisible:false,predictions:[],dayNames : ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],monthNames :['January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','October','November', 'December'],day:"",hour:0,minutes:0,sec:0,current_temp:0}
 
   
   componentDidMount() {
     this.findlocation();
+    this.displaydate()
 
   }
 
  
 
   findlocation = () => {
+
       navigator.geolocation.getCurrentPosition(
         position => {
           const location = JSON.stringify(position);
           this.setState({location:position.coords});
           this.getweathernow()
           this.getweatherforecast()
+
         },
         error => Alert.alert(error.message)
-      ),options = {
+      ,options = {
         enableHighAccuracy: true,
         maximumAge : 60000,
         timeout : 45000
-      };
+      }
+      )
+
   };
 
-  displaydate=()=>{
-    const d= new Date()
-    const num_day=d.getDay()
-    const num_month=d.getMonth()
-    const day=d.getDate()
-    const hour=d.getHours()
-    const minutes=d.getMinutes()
-    const sec=d.getSeconds()
-    dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','October','November', 'December']
-  return <View style={{flex:1, flexDirection: 'row', justifyContent:'center'}}><Text>{day+' '+monthNames[num_month]+' / '+dayNames[num_day]}</Text><Text>{'    '+hour+' : '+minutes+' : '+sec}</Text></View>
+  displaydate= ()=>{
+
+    setInterval(async ()=>{ 
+      try{
+      const d= await new Date()
+      this.setState({d}) 
+      const minutes= await d.getMinutes()
+      this.setState({minutes})
+      const num_day= await d.getDay()
+      this.setState({num_day})
+      const num_month=await d.getMonth()
+      this.setState({num_month})
+      const day=await d.getDate()
+      this.setState({day})
+      const hour=await d.getHours()
+      this.setState({hour})
+      const sec=await d.getSeconds()
+      this.setState({sec})}
+      catch(error){console.error(error)}
+  
+  },1000)
+
+
   }
 
   getweathernow= async ()=>{
@@ -183,8 +200,9 @@ applySelectedCity=()=>{
     return ( 
     <View style={styles.container}>        
         <View style={styles.firstrow}>
-              <Image style={{width: 30, height: 30}} source={require('./photos/gps.png')}/>
-              {this.displaydate()}
+              <TouchableOpacity onPress={this.findlocation}><Image style={{width: 30, height: 30}} source={require('./photos/gps.png')}/></TouchableOpacity>
+              <View style={{flex:1, flexDirection: 'row', justifyContent:'center'}}><Text>{this.state.day+' '+this.state.monthNames[this.state.num_month]+' / '+this.state.dayNames[this.state.num_day]}</Text><Text>{'    '+this.state.hour+' : '+this.state.minutes+' '}</Text></View>
+
         </View>
         <View style={styles.secondpart}>
             <Text style={{fontSize:30}}>{this.state.name}</Text><Button title="Search" onPress={() => this.setState({isVisible:true})}></Button>
@@ -207,7 +225,7 @@ applySelectedCity=()=>{
 }
 const styles = StyleSheet.create({
   container: {
-   
+   flex:1,
     backgroundColor: '#ffe2b3',
     paddingLeft:10,
     paddingRight:10,
