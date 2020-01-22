@@ -90,6 +90,8 @@ export default class App extends React.Component {
   catch(err){console.error(err)}
 
   }
+
+
  getweatherforecast= async ()=>{
   let tmp,tmp1=[]
   let forecast={}
@@ -278,10 +280,6 @@ const styles = StyleSheet.create({
     borderBottomWidth:0.5,
     borderBottomColor:'#e6e6e6'
   }
-  ,
-  searchpart:{
 
-
-  }
 
 });
