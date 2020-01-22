@@ -7,7 +7,7 @@ import {Overlay,} from 'react-native-elements';
 
 export default class App extends React.Component {
 
-  state={name_new:"",selectedcity:false,cityname:"default",location:{},apikey:'356f4c5c820f76f0f739f20caef2afbf',forecast:{"0":{},"1":{},"2":{},"3":{}},isVisible:false,predictions:[]}
+  state={name_new:"",selectedcity:false,cityname:"default",location:{},apikey:'AIzaSyBlenci9g0C_166b8sMDxbQ78XFGsr0iSk',forecast:{"0":{},"1":{},"2":{},"3":{}},isVisible:false,predictions:[]}
 
   
   componentDidMount() {
@@ -121,7 +121,7 @@ findcity= async (name_new)=>{
 
  
   try{
-    const data= await fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${name_new}&types=(cities)&key=AIzaSyCu1IflT6R5JIcbG7f0GVOELcf1RykQfk8`)
+    const data= await fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${name_new}&types=(cities)&key=${this.state.apikey}`)
 
   const datajson= await data.json()
   const predictions= datajson.predictions;
@@ -136,7 +136,7 @@ getcitylocation= async (place_id)=>{
 
  
   try{
-    const data= await fetch(`https://maps.googleapis.com/maps/api/geocode/json?place_id=${place_id}&key=AIzaSyCu1IflT6R5JIcbG7f0GVOELcf1RykQfk8`)
+    const data= await fetch(`https://maps.googleapis.com/maps/api/geocode/json?place_id=${place_id}&key=${this.state.apikey}`)
 
   const datajson= await data.json()
   const location= datajson.results;
